@@ -1,5 +1,5 @@
 ---
-title: "Vision"
+title: "Stat"
 permalink: /categories/Stat/
 layout: category
 author_profile: true

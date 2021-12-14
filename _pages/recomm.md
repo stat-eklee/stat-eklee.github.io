@@ -1,5 +1,5 @@
 ---
-title: "Vision"
+title: "Recommandation"
 permalink: /categories/Recomm/
 layout: category
 author_profile: true
