@@ -1,5 +1,6 @@
 ---
 title:  "[논문리뷰] ENet"
+excerpt: "Semantic Segmentation"
 header:
   teaser: /assets/images/enet.png
 
