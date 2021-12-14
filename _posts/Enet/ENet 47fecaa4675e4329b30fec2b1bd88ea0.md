@@ -1,7 +1,7 @@
 ---
 title:  "[논문리뷰] ENet"
 header:
-  teaser: /assets/images/bio-photo-keyboard-teaser.jpg
+  teaser: /assets/images/enet.png
 
 categories:
   - Vision

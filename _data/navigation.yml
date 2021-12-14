@@ -2,11 +2,13 @@
 main:
   - title: "홈"
     url: https://stat-eklee.github.io/
+  - title : "Categories"
+    url : /categories/
   - title: "Vision"
-    url: /vision/
+    url: /categories/Vision/
   - title: "NLP"
-    url: /NLP/
+    url: /categories/NLP/
   - title: "Stat"
-    url: /stat/
+    url: /categories/Stat/
   - title: "Recommandation"
-    url: /recomm/
+    url: /categories/Recomm/
