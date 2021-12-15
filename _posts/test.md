@@ -1,11 +1,5 @@
 ---
 title:  "[논문리뷰] ENet"
-permalink: /categories/Vision/
-layout: category
-author_profile: true
-taxonomy: Vision
-
-
 excerpt: "Semantic Segmentation"
 header:
   teaser: /assets/images/enet.png
