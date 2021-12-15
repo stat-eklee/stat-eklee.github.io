@@ -4,6 +4,7 @@ main:
     url: https://stat-eklee.github.io/
   - title : "Categories"
     url : /categories/
+    
   - title: "Vision"
     url: /categories/Vision/
   - title: "NLP"
