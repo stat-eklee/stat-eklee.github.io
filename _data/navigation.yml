@@ -13,3 +13,6 @@ main:
     url: /categories/Stat/
   - title: "Recommandation"
     url: /categories/Recomm/
+
+  - title: "About"
+    url : /about/
