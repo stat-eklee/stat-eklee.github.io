@@ -1,7 +1,7 @@
 ---
 title:  "[논문리뷰] ENet"
 permalink : /categories/Vision/
-layout: category
+layout: categories
 author_profile: true
 taxonomy : Vision
 
