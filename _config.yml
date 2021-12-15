@@ -103,7 +103,7 @@ analytics:
 # Site Author
 author:
   name             : "통경"
-  avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
+  avatar           : "/assets/images/fig.jpeg"
   bio              : "연구분야 : Vision(Segmentation), Graph, NLP(Transformer) etc."
   location         : "Intelligent Bigdata Lab. UOS"
   email            : "stat.eklee@gmail.com"
