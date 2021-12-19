@@ -19,8 +19,6 @@ last_modified_at: 2021-12-13T12:11:00-15:00
 
 2) GFLOPs(**G**iga **FL**oating point **O**perations **P**er **S**econd) , FLOPs(**FL**oating point **O**perations **P**er **S**econd) : 초당 부동소수점 연산이란 의미로 1초동안 수행할 수 있는 부동소수점 연산의 횟수를 기준으로 삼음.
 
-![Untitled 1](/assets/images/posts/ENet/Untitled 1.png)
-
 참조 : [https://ko.wikipedia.org/wiki/플롭스](https://ko.wikipedia.org/wiki/%ED%94%8C%EB%A1%AD%EC%8A%A4)
 
 3) Power consumption (참조 : ESPNet) 
@@ -42,18 +40,13 @@ last_modified_at: 2021-12-13T12:11:00-15:00
 - 대규모 데이터와 GPU의 발전으로 CNN이 고전적 컴퓨터 비전 알고리즘의 성능을 능가. CNN은 계속 발전하고 있지만 Segmentation에 적용하면 대략적인 공간 결과만을 제공하는 문제점 발생
 - color based segmentation 또는 conditional random fields(CRF)와 같은 다른 알고리즘과 함께 사용하는 경우가 많음(예 : Deeplab v2)
 
-![Untitled 2](/assets/images/posts/ENet/Untitled 2.png)
-
 - 영상을 spatially하게 segmentation하기 위해, SegNet 또는 FCN과 같은 여러 개의 아키텍처가 제안(다중 클래스 분류를 위해 설계된 매우 큰 모델인 VGG16 아키텍처를 기반- 많은 매개변수와 긴 추론 시간 소요)
 - 10fps 이상의 속도로 영상을 처리해야 하는 많은 모바일 또는 배터리 구동 애플리케이션에 사용 불가
 
-![Untitled 3](/assets/images/posts/ENet/Untitled 3.png)
 
 VGG16 architecture
 
 - 빠른 추론과 높은 정확도에 최적화된 새로운 Neural Network 아키텍처(Enet)를 제안
-
-![Untitled 4](/assets/images/posts/ENet/Untitled 4.png)
 
 # 2. relate work
 
@@ -71,20 +64,12 @@ VGG16 architecture
 - Table1의 구분선과 각 블록 이름 뒤의 숫자로 강조 표시된 것처럼 여러 단계로 나눠짐
 - 512의 예제 입력 이미지 해상도에 대해 출력 크기(output size)
 
-![Untitled 5](/assets/images/posts/ENet/Untitled 5.png)
-
-![Untitled 6](/assets/images/posts/ENet/Untitled 6.png)
-
 1) initial block : MaxPooling은 겹치지 않는 $2 \times2$ *windows size 에서 수행되며, conv($3 \times 3$*, stride2)에는 concatenation 후 최대 16개의 feature maps을 합한 13개의 필터가 있음.
 2) bottleneck module(병목모듈) : conv는 $3 \times 3$개의 필터가 있는 정규, 확장 또는 완전 컨볼루션(디콘볼루션)이거나 두 개의 asymmetric으로 분해된 $5\times5$ conv.
 
 그림 2b에서와 같이 단일 메인 분기 및 확장과 분리된 컨볼루션 필터를 가진 다음 요소별 추가 기능과 다시 병합하는 ResNets을 채택
 
-![Untitled 7](/assets/images/posts/ENet/Untitled 7.png)
-
 - Resnet12 구조
-    
-    ![Untitled 8](/assets/images/posts/ENet/Untitled 8.png)
     
 
 각 블록은 세 개의 convolutional 레이어로 구성
@@ -101,14 +86,8 @@ VGG16 architecture
 
 + PReLU (parametric ReLU) : 음수에 대한 gradien기울기(a)를 변수(parametric)로 두고 학습을 통하여 업데이트 시키는 방식
 
-![Untitled 9](/assets/images/posts/ENet/Untitled 9.png)
-
-![Untitled 10](/assets/images/posts/ENet/Untitled 10.png)
-
 초기 단계에는 단일 블록이 포함. 1단계는 5개의 병목 블록(bottleneck1.0이 1개, bottleneck1.x이 4개)으로 구성되며, 2단계와 3단계는 동일한 구조(2.0~2.8/ 3.0~3.8)
 단, 3단계는 시작 부분에서 입력을 다운샘플링(downsampling)하지 않음(0번째 병목 현상 생략)
-
-![Untitled 11](/assets/images/posts/ENet/Untitled 11.png)
 
 - cuDNN [29]은 convolution과 bias 추가를 위해 별도의 커널을 사용하기 때문에 커널 호출의 수와 전체적인 메모리 작업을 줄이기 위해 어떤 projections에서도 bias terms를 사용하지 않음 > 정확성에 아무런 영향을 미치지 않음
 - 각 컨볼루션 계층과 비선형성 사이에서 배치 정규화를 사용
@@ -219,16 +198,11 @@ VGG16 architecture
 
 ### Inference time
 
-![Untitled](/assets/images/posts/ENet/Untitled 13.png)
-
 - 표 2는 resolution 이 다양한 단일 입력 프레임에 대한 추론 시간(inference time)을 비교. 초당 처리 가능한 프레임 수도 추가됨.
 - -는 메모리가 부족하여 측정을 수행할 수 없음을 표시.
 - ENet은 SegNet보다 훨씬 빠르며 실시간 애플리케이션에 높은 frame rates을 제공하고 인코더-디코더 아키텍처와 함께 매우 심층적인 신경망 모델을 실질적으로 사용 가능.
 
 ### Hardware requirements
-
-![Untitled](/assets/images/posts/ENet/Untitled 14.png)
-
 - 표 3은 서로 다른 모델에서 사용되는 floting point 연산 및 parameter 수를 비교한 것.
 - ENet의 requirements가 두 자릿수보다 작기 때문에 ENet의 효율성은 명백.
 - model size(fp16) :모델 파라미터를 half precision floating point format(fp16)으로 저장하는 데 필요한 저장공간.
@@ -259,19 +233,11 @@ VGG16 architecture
 - instance-level intersection over union metric(iIoU)라는 추가 메트릭을 사용, 이는 평균 객체 크기로 가중치를 주는 IoU.
 - 표 4에서와 같이 ENet은 IoU 및 iOU 클래스는 물론 IoU에서 SegNet을 능가. ENet은 현재 Cityscapes 벤치마크에서 가장 빠른 모델. validation 세트의 예측 예는 그림 4.
 
-![Untitled](/assets/images/posts/ENet/Untitled 15.png)
-
-![Untitled](/assets/images/posts/ENet/Untitled 16.png)
-
 ### Camvid
 
 - 367개의 training 이미지와 233개의 test이미지가 포함[15].
 - 건물, 나무, 하늘, 자동차, 도로 등 11개의 클래스가 있는데, 12번째 클래스에는 라벨이 부착되지 않은 데이터가 포함, training시 이를 무시.
 - 이 데이터의 원래 프레임 해상도는 960×720이지만 training 전에 이미지를 480×360으로 다운샘플링함. 표 5에서 우리는 ENet의 성능을 기존의 SOTA와 비교.
-
-![Untitled](/assets/images/posts/ENet/Untitled 17.png)
-
-![Untitled](/assets/images/posts/ENet/Untitled 18.png)
 
 ### Sun RGB-D
 
@@ -281,10 +247,6 @@ VGG16 architecture
 - global average accuracy와 IoU에서는 낮지만 class average accuracy에서는 비슷.
 - iIoU 메트릭의 도입을 주목 [14]. class average accuracy의 비교 결과는 Enet이 SegNet만큼 작은 개체를 구별할 수 있음을 나타냄.
 - ENet은 실시간으로 이미지를 처리할 수 있으며 임베디드 플랫폼의 SegNet보다 거의 20배 더 빠르기 때문에 이 차이는 작다고 연구자는 주장.
-
-![Untitled](/assets/images/posts/ENet/Untitled 19.png)
-
-![Untitled](/assets/images/posts/ENet/Untitled 20.png)
 
 # 6. Conclusion
 
