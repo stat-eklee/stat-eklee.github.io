@@ -31,9 +31,7 @@ last_modified_at: 2022-03-28T12:11:00-15:00
     historical item and aggregating these items. The attention weights
     reveal impacts of previous items to the current state at time point 𝑡.
     - 이유 : crucial temporal collaborative signals을 무시해서.
-    
-    ![Untitled](TGSRec%2089377/Untitled.png)
-    
+       
     1) sequence의 collaborative signal을 model하기 부족. 동시에 encode하기 어려움
     
     - SASRec : Self-attention > users에서만 효과
@@ -52,9 +50,6 @@ last_modified_at: 2022-03-28T12:11:00-15:00
 
 - 3. Definitions and Preliminaries
     - 일반적인 SR과 다른 user interaction sequence 사용 > Continuous-Time Bipartite Graph (CTBG)
-        
-        ![Untitled](TGSRec%2089377/Untitled%201.png)
-        
         - edge : timestamp as attribute
         - every user/item node in this graph preserve the sequential order via the timestamps at edges
     - Definition 3.1 (Continuous-Time Bipartite Graph). 𝑁 nodes 와 𝐸 edges 연속적인 시간 bipartite graph 는$\mathcal{B} = {\mathcal{U}, \mathcal{I}, \mathcal{E}_{\mathcal{T}}}$,
@@ -66,9 +61,6 @@ last_modified_at: 2022-03-28T12:11:00-15:00
     - Definition 3.3 (Continuous-Time Seqential Recommendation). For a specific user 𝑢, given a set of future timestamps$\mathcal{T}_𝑢 > 𝑇$ , the continuous-time sequential recommendation for this user is to make a continuous-time recommendation for every timestamp $𝑡 ∈ \mathcal{T}_𝑢$
 
 - 4. proposed model
-    
-    ![Untitled](TGSRec%2089377/Untitled%202.png)
-    
     ## 4.1 embedding layer
     
     - **two types of embeddings** 를 encode
@@ -89,13 +81,7 @@ last_modified_at: 2022-03-28T12:11:00-15:00
     embeddings.
     - Define the temporal effects as a function of time span in continuous time
     space
-    
-    ![Untitled](TGSRec%2089377/Untitled%203.png)
-    
     - temporal correlation between two timestamps
-    
-    ![Untitled](TGSRec%2089377/Untitled%204.png)
-    
     positional encoding
     
     ## 4.2 Temporal Collaborative Transformer
@@ -109,13 +95,7 @@ last_modified_at: 2022-03-28T12:11:00-15:00
     ### 4.2.1 Information Construction.
     
     - long term node embedding + time embedding > TCT layer의 input으로 쓰기 위해 구성
-    
-    ![Untitled](TGSRec%2089377/Untitled%205.png)
-    
     - The query input information at the 𝑙-th layer for user 𝑢 at time t (eq3)
-    
-    ![Untitled](TGSRec%2089377/Untitled%206.png)
-    
     - $h_u^{(l-1)}(t) \in \mathbb{R}^{d+d_T}$ : user u 의 time t에서의 information
     - $e_u^{(l-1)} (t) \in \mathbb{R}^{d}$ : temporal embedding of u
     - $\Phi(t) \in \mathbb{R}^{d_T}$ : time vector of t
@@ -127,52 +107,32 @@ last_modified_at: 2022-03-28T12:11:00-15:00
     - In addition to the query node **itself**, also propagate temporal collaborative
     information from its **neighbors**.
     - Randomly sample S different interactions of 𝑢 before time t
-    
-    ![Untitled](TGSRec%2089377/Untitled%207.png)
-    
-    t_s < t sampling (eq4) 각 $(i, t_s)$  pair l-th layer 
-    
-    ![Untitled](TGSRec%2089377/Untitled%208.png)
-    
+    t_s < t sampling (eq4) 각 $(i, t_s)$  pair l-th layer
     ### 4.2.2 Information Propagation.
     
     - Propagate the information of **sampled neighbors** $N_𝑢(𝑡)$ to infer the temporal
     embeddings (Eq5) historical interaction $\pi ^𝑢_𝑡(i, t_s)$ : $(u,i,t_s)$  의 영향 반영
-    
-    ![Untitled](TGSRec%2089377/Untitled%209.png)
-    
     - $W_v \in \mathbb{R}^{(d \times (d+d_T))}$ : linear transformation matrix
     
     ### 4.2.3 Temporal Collaborative Attention
     
     - Adopt the novel temporal collaborative attention mechanism to measure the
     **attention weight** $\pi ^𝑢_𝑡(i, t_s)$,
-    
-    ![Untitled](TGSRec%2089377/Untitled%2010.png)
-    
     $W^{(l)}_k$와 $W^{(l)}_q$ : linear transformation matrices, factor $\frac{1}{\sqrt{d+d_T}}$ : dot-product from growing large with high dimensions
     
     eq3, eq4를 eq6의 오른쪽 side는 재표현 가능
-    
-    ![Untitled](TGSRec%2089377/Untitled%2011.png)
-    
+
     temporal effect : eq1
     
     - more stacked layers, collaborative signals and temporal effects are entangled and tightly connected됨
     - dot-product attention can characterize impacts of temporal collaborative signals
     - **normalize** the attention weights across **all sampled** interactions by employing a softmax function
-    
-    ![Untitled](TGSRec%2089377/Untitled%2012.png)
-    
+      
     - $H_{\mathcal{N}_u}^{(l-1)}(t) \in \mathbb{R}^{(d+d_T) \times S}$ > fig3 (추정하고자 하는 user와 time과 연관된 sample로 만듬)
-    
-    ![Untitled](TGSRec%2089377/Untitled%205.png)
-    
+      
     - $K_u^{(l-1)} (t)= W_k^{(l)} H_{\mathcal{N}_u}^{(l-1)}(t)$, $V_u^{(l-1)} (t)= W_v^{(l)} H_{\mathcal{N}_u}^{(l-1)}(t)$, $q_u^{(l-1)} (t)= W_q^{(l)} H_{\mathcal{N}_u}^{(l-1)}(t)$  > key, query, value
     - For **simplicity** and without **ambiguity**, **superscripts** and **time 𝑡** 무시하고 combine Eq. (6) and Eq. (8).
-    
-    ![Untitled](TGSRec%2089377/Untitled%2013.png)
-    
+       
     - dot-product attention in Transformer
     
     1) multi-head attention operation
@@ -184,9 +144,7 @@ last_modified_at: 2022-03-28T12:11:00-15:00
     ### 4.2.4 Information Aggregation
     
     - temporal node embedding의 결과물로 , TCT layer의 final step으로 query information을 (eq3), neighbor information in Eq. (5) aggregate
-    
-    ![Untitled](TGSRec%2089377/Untitled%2014.png)
-    
+       
     - concat > FFN two linear transformation layers with ReLU
     
     ### 4.2.5 Generalization to items.
@@ -206,35 +164,14 @@ last_modified_at: 2022-03-28T12:11:00-15:00
     ## 4.4 Model Optimization
     
     - pairwise BPR loss > top-N recommendation
-    
-    ![Untitled](TGSRec%2089377/Untitled%2015.png)
-    
+  
     - mini-batch Adam optimization > Binary Cross Entropy (BCE) loss
-    
-    ![Untitled](TGSRec%2089377/Untitled%2016.png)
-    
+  
 - 5. Experiments
     
     5.1 datasets
-    
-    ![Untitled](TGSRec%2089377/Untitled%2017.png)
-    
     5.2 Experimental Settings
-    
     5.3 Performance Comparison (RQ1)
-    
-    ![Untitled](TGSRec%2089377/Untitled%2018.png)
-    
     5.4 Parameter Sensitivity (RQ2)
-    
-    ![Untitled](TGSRec%2089377/Untitled%2019.png)
-    
     5.5 Ablation Study (RQ3 & RQ4)
-    
-    ![Untitled](TGSRec%2089377/Untitled%2020.png)
-    
     5.6 Temporal Correlations (RQ4)
-    
-    ![Untitled](TGSRec%2089377/Untitled%2021.png)
-    
-    ![Untitled](TGSRec%2089377/Untitled%2022.png)
